@@ -1,0 +1,83 @@
+h3{
+    margin-top: 30px;
+}
+h6{
+  font-size: 18px;
+}
+.webTitle{
+    font-family: 'Adamina' , serif;
+}
+.input-group-prepend{
+    padding: 0;
+}
+button,#LanguageId,.input-group-prepend input{
+    height: 35px;
+}
+.container-fluid{
+  min-height: 100vh;
+}
+#searchbtn div i,#searchbtn div span{
+  margin: auto;
+}
+
+#searchbtn {
+    border: none;
+    color: white;
+    padding: 0px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 20px;
+  }
+  
+  /* Darker background on mouse-over */
+  #searchbtn:hover {
+    background-color: #007bff;
+  }
+
+  input[type='text']:focus,#LanguageId:focus,#searchbtn:focus{
+    box-shadow: none;
+  }
+
+  #error{
+    color: red;
+    visibility: hidden;
+  }
+  #error b{
+    color: black;
+  }
+  .vocabulary p{
+    color: blue;
+    display: inline-block;
+    text-transform: capitalize;
+    font-size: 20px;
+  }
+  .vocabulary span{
+    margin-left: 10px;
+    font-size: 20px;
+
+  }
+  .vocabulary img{
+    height: 25px;
+    margin-bottom: 2px;
+    margin-left: 10px;
+  }
+
+  li i{
+    font-size: 15px;
+  }
+  .content{
+    display: none;
+  }
+  .Defi {
+    font-size: 16px;
+  }
+  .Defi li{
+    margin: 10px 0 10px 0;
+  }
+  li u{
+    cursor: pointer;
+  }
+  div>ul>li{
+    font-size: 18px;
+
+  }
