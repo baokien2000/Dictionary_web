@@ -26,34 +26,35 @@ let Errortext = document.querySelector("#error"),
     LanguageIndex = 1,
     audio;
 
+//nếu chưa đăng nhập => login.html
+$(document).ready(function () {
+    // kiểm tra xem có session login ko
+    if (sessionStorage.getItem("login") == null) {
+        $(location).attr("href", "./login.html");
+    }
+});
+
 Language.onchange = () => {
-    // console.log($("#LanguageId  option:selected").text());
     switch (Language.value) {
-        case 1: // Anh
+        case "1": // Anh
             LanguageIndex = 1;
             break;
-        case 2: // Việt
+        case "2": // Việt
             LanguageIndex = 2;
             break;
-        case 3:
+        case "3":
             LanguageIndex = 3;
             break;
-        case 4:
+        case "4":
             LanguageIndex = 4;
             break;
     }
 };
 
-// nếu chưa đăng nhập => login.html
-$(document).ready(function () {
-    if (sessionStorage.getItem("login") == null) {
-        $(location).attr("href", "./login.html");
-    }
-});
 searchButton.onclick = () => {
     let LanguageName = $("#LanguageId  option:selected").text();
     switch (LanguageIndex) {
-        case 1:
+        case 1: // Tiếng anh
             if (searchBox.value) {
                 Content.style.display = "none";
                 adjective.innerHTML = "";
@@ -67,141 +68,184 @@ searchButton.onclick = () => {
                 searchBox.value = "";
             }
             break;
-        case 2:
+
+        case 2: // Tiếng Việt
+            // Code Here
             alert(`Chưa làm ngôn ngữ ${LanguageName}`);
             break;
-        case 3:
+
+        case 3: // Tiếng Pháp
+            // Code Here
             alert(`Chưa làm ngôn ngữ ${LanguageName}`);
             break;
-        case 4:
+
+        case 4: // Tiếng Nga
+            // Code Here
             alert(`Chưa làm ngôn ngữ ${LanguageName}`);
             break;
     }
 };
 audioIcon.onclick = () => {
-    audio.play();
+    // Audio Onclick
+    audio.play(); // phát âm thanh
 };
 
+// Do API này nó là 1 mảng lớn result và bên trong có nhiêu mảng nhỏ
+// mỗi mảng có một nội dung khác nhau
+// và số lượng mảng của mỗi từ lại khác nhau
+// vdd search từ 'abc'
+// result[0] có định nghĩa trạng từ
+// result[1] có định nghĩa tính từ, thán từ
+// result[2] có âm thanh , thán từ
+// result[n] ....
+// nên phải chạy khá nhiều vòng FOR đê có thể lấy được hết nội dung cần thiết
+
 function data(result, word) {
+    // result -> mảng kết quả , word -> từ vựng
     if (result.length == undefined) {
+        // nếu độ dài mảng = undefined thì báo lỗi ko tìm thấy
         Errortext.innerHTML = `Couldn't find any results for <b>${word} </b>`;
-        Errortext.style.visibility = "visible";
-        Content.style.display = "none";
+        Errortext.style.visibility = "visible"; // hiện thông báo lỗi
+        Content.style.display = "none"; // Ẩn content
     } else {
-        Errortext.style.visibility = "hidden";
+        // nếu có kết quả
+        Errortext.style.visibility = "hidden"; // ẩn thông báo lỗi
 
-        let phontic = result[0].phonetics.length;
-
-        console.log(result);
         // từ vựng
         Vocabulary.innerHTML = word;
+
+        console.log(result);
+
         // Phát âm
+        let phontic = result[0].phonetics.length; //
         try {
-            if (result[0].phonetics[0].text == undefined) {
-                Phonetics.innerHTML = ``;
-            }
             if (phontic == 1) {
                 Phonetics.innerHTML = `${result[0].phonetics[0].text}`;
             } else {
                 Phonetics.innerHTML = `${result[0].phonetics[1].text}`;
+            }
+            if (Phonetics.textContent == undefined) {
+                // nếu số phân tử của mang
+                Phonetics.innerHTML = ``;
             }
         } catch (e) {
             Phonetics.innerHTML = ``;
         }
 
         result.forEach((i) => {
+            // chạy từng mảng nhỏ trong result
             let meaning = i.meanings;
             let phonetics = i.phonetics;
             audio = undefined;
+
             //audio
             phonetics.forEach((k) => {
+                // chạy từng mảng nhỏ trong phonetics
                 if (k.audio && audio == undefined) {
+                    // nếu k.audio có tồn tại
                     audio = new Audio(k.audio);
                     audioIcon.style.display = "inline-block";
                     return true;
                 }
             });
             if (audio == undefined) {
-                audioIcon.style.display = "none";
+                // sau khi chạy xong dòng for trên nếu audio vẫn bằng undefined
+                audioIcon.style.display = "none"; // thì ẩn icon đi
             }
 
             meaning.forEach((j) => {
+                // chạy từng mảng nhỏ trong meaning
                 let defi = j.definitions;
                 let WordList = ``;
                 defi.forEach((k) => {
-                    WordList += `<li>` + k.definition + `</li>`;
+                    WordList += `<li>` + k.definition + `</li>`; // chạy từng mảng nhỏ trong definitions
                     if (k.example != undefined) {
+                        // check xem nó có vd hay ko
                         WordList += `<span>Example</span>
                             <ul>
                                 <li><i>${k.example}</i></li>
                             </ul>
-                            `;
+                            `; // lưu hết vào WordList
                     }
                 });
-                switch (j.partOfSpeech) {
-                    case "adjective":
+                switch (
+                    j.partOfSpeech // check xem j.partOfSpeech là loại từ gì
+                ) {
+                    case "adjective": // trạng từ
                         if (adjective.innerText.length == 0)
-                            adjective.innerHTML = WordList;
+                            // check xem adjective.innerText đã có nội dung chưa
+                            adjective.innerHTML = WordList; // nếu chưa có thì thêm vào
                         break;
-                    case "adverb":
+                    case "adverb": // trạng từ
                         if (adverb.innerText.length == 0)
                             adverb.innerHTML = WordList;
                         break;
-                    case "interjection":
+                    case "interjection": // thán từ
                         if (interjection.innerText.length == 0)
                             interjection.innerHTML = WordList;
                         break;
-                    case "noun":
+                    case "noun": // danh từ
                         if (noun.innerText.length == 0)
                             noun.innerHTML = WordList;
                         break;
-                    case "verb":
+                    case "verb": // động từ
                         if (verb.innerText.length == 0)
                             verb.innerHTML = WordList;
                         break;
                 }
                 if (j.antonyms.length) {
+                    // check xem có từ trái nghĩa ko
                     Antonyms.innerHTML = Antonyms_Synonyms(j.antonyms);
                 }
-                // từ đồng nghĩa
                 if (j.synonyms.length > 0) {
+                    // check xem có từ đồng nghĩa ko
                     Synonyms.innerHTML = Antonyms_Synonyms(j.synonyms);
                 }
             });
         });
-        Content.style.display = "block";
+        Content.style.display = "block"; // hiện content( nội dung)
     }
 
+    // sau khi chạy hết dòng FOR trên thì check lại xem phần nào ko có
+    // nội dung thì ẩn nó di
+
+    // thán từ
     if (interjection.textContent.length == 0) {
         interjectiontxt.style.display = "none";
     } else {
         interjectiontxt.style.display = "list-item";
     }
+    // Động từ
     if (verb.textContent.length == 0) {
         verbtxt.style.display = "none";
     } else {
         verbtxt.style.display = "list-item";
     }
+    // Danh từ
     if (noun.textContent.length == 0) {
         nountxt.style.display = "none";
     } else {
         nountxt.style.display = "list-item";
     }
+    // tính từ
     if (adjective.textContent.length == 0) {
         adjectivetxt.style.display = "none";
     } else {
         adjectivetxt.style.display = "list-item";
     }
+    // trạng từ
     if (adverb.textContent.length == 0) {
         adverbtxt.style.display = "none";
     } else {
         adverbtxt.style.display = "list-item";
     }
+    // đồng nghĩa
     if (Synonyms.textContent.length == 0) {
         Synonymstxt.style.display = "none";
     } else {
         Synonymstxt.style.display = "block";
     }
+    // trái nghĩa
     if (Antonyms.textContent.length == 0) {
         Antonymstxt.style.display = "none";
     } else {
@@ -209,14 +253,16 @@ function data(result, word) {
     }
 }
 
-const CountWord = (defi) => {
-    let WordList = ``;
-    defi.forEach((i) => {
-        WordList += `<li>` + i + `</li>`;
-    });
-    return WordList;
-};
+// const CountWord = (defi) => {
+//     let WordList = ``;
+//     defi.forEach((i) => {
+//         WordList += `<li>` + i + `</li>`;
+//     });
+//     return WordList;
+// };
+
 let Antonyms_Synonyms = (defi) => {
+    // hàm trả về HTML các từ đồng nghĩa và trái nghĩa
     let WordList = `<li>`;
     defi.forEach((i) => {
         WordList +=
@@ -227,12 +273,12 @@ let Antonyms_Synonyms = (defi) => {
 };
 
 function fetchApi(word) {
+    // hàm trả về kết quả Dictionary EN
     let url = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
     fetch(url)
         .then((res) => res.json())
         .then((result) => data(result, word));
 }
-
 // Event click vào các từ đồng nghĩa,trái nghĩa
 function WordClick(word) {
     adjective.innerHTML = "";
@@ -242,7 +288,6 @@ function WordClick(word) {
     noun.innerHTML = "";
     Synonyms.innerHTML = "";
     Antonyms.innerHTML = "";
-
     fetchApi(word.replaceAll("_", " "));
     searchBox.value = "";
 }

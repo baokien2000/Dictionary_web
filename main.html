@@ -23,7 +23,7 @@
                     <div class="input-group-prepend col-7 col-lg-8">
                         <input id="searchBox" placeholder="Search" type="text" class="form-control ">
                     </div>
-
+                    <!-- chọn ngôn ngữ -->
                     <select class="custom-select col-4 col-lg-2 " id="LanguageId">
                         <option value="1" selected>English</option>
                         <option value="2">Viet Nam</option>
@@ -31,7 +31,8 @@
                         <option value="4">Nga</option>
                     </select>
                     <button id="searchbtn" type="button" class="btn btn-secondary
-                    rounded col-1">
+                     rounded col-1">
+                        <!--nút search -->
                         <div class="row">
                             <i class="fa fa-search"></i>
                             <span class="d-none d-lg-block">Search</span>
@@ -42,17 +43,19 @@
 
 
 
-                <p id="error" class="col-12">Error</p>
+                <p id="error" class="col-12">Error</p> <!-- Thông báo lỗi -->
 
             </div>
 
             <div class="content">
                 <div class="vocabulary">
                     <p>Word</p>
-                    <span>/wɜ:k/ </span>
-                    <img id="audioIcon" src="./images/Speakers.png" alt="Speaker">
+                    <!--từ vựng -->
+                    <span>/wɜ:k/ </span> <!-- Phát âm-->
+                    <img id="audioIcon" src="./images/Speakers.png" alt="Speaker"> <!-- Âm thanh -->
                 </div>
                 <h6>Definition</h6>
+                <!--Định nghĩa -->
                 <ul>
                     <li id="NounText">Noun</li>
                     <ul id="Noun" class="Defi"></ul>
@@ -70,8 +73,10 @@
                     <ul id="Interjection" class="Defi"></ul>
                 </ul>
                 <h6 id="SynonymsText">Synonyms</h6>
+                <!--Đồng nghĩa -->
                 <ul id="Synonyms"></ul>
                 <h6 id="AntonymsText">Antonyms</h6>
+                <!--Trái nghĩa -->
                 <ul id="Antonyms"></ul>
             </div>
 

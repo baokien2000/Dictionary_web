@@ -85,7 +85,6 @@
     <div class="login-page">
         <div class="form">
             <h1>login</h1>
-            <!-- onsubmit="return loginok" -->
             <form class="login-form" id="form">
                 <input type="text" placeholder="username" id="UsernameID" />
                 <input type="password" placeholder="password" id="PassWordID" />
@@ -96,8 +95,6 @@
     </div>
 </body>
 <script>
-
-
 
     $("#SubmitBtn").click(function () {
         let name = $("#UsernameID").val().length
@@ -121,6 +118,7 @@
                 }
             });
             if (login == true) {
+                // đăng nhập thành công thì sẽ tạo 1 session login và chuyển trang về main
                 sessionStorage.setItem("login", "ok");
                 $(location).attr('href', './main.html')
             } else {
