@@ -25,10 +25,15 @@
                     </div>
                     <!-- chọn ngôn ngữ -->
                     <select class="custom-select col-4 col-lg-2 " id="LanguageId">
-                        <option value="1" selected>English</option>
-                        <option value="2">Viet Nam</option>
-                        <option value="3">Phap</option>
-                        <option value="4">Nga</option>
+                        <option value=1 selected>English</option><!-- en -->
+                        <option value=2>Spanish</option><!-- es -->
+                        <option value=3>French</option><!-- fr -->
+                        <option value=4>Gujarati</option><!-- gu -->
+                        <option value=5>Hindi</option><!-- hi -->
+                        <option value=6>Latvian</option><!-- lv -->
+                        <option value=7>Romanian</option><!-- ro -->
+                        <option value=8>Swahili</option><!-- sw -->
+                        <option value=9>Tamil</option><!-- ta -->
                     </select>
                     <button id="searchbtn" type="button" class="btn btn-secondary
                      rounded col-1">
@@ -51,7 +56,7 @@
                 <div class="vocabulary">
                     <p>Word</p>
                     <!--từ vựng -->
-                    <span>/wɜ:k/ </span> <!-- Phát âm-->
+                    <span id="En_Phonetics">/wɜ:k/ </span> <!-- Phát âm-->
                     <img id="audioIcon" src="./images/Speakers.png" alt="Speaker"> <!-- Âm thanh -->
                 </div>
                 <h6>Definition</h6>
@@ -91,6 +96,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
     crossorigin="anonymous"></script>
+<script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
 <script src="./main.js"></script>
 
 </html>
