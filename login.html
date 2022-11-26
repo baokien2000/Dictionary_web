@@ -10,28 +10,31 @@
 
     <style>
         body {
-            width: 100vw;
-            height: 100vh;
-            background: linear-gradient(to top, #ffffff -100%, #3366ff 231%);
+            width: auto;
+            height: auto;
+            background-color: #918bec;
+            background-image: linear-gradient(135deg, #918bec 0%, #9599E2 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             font-family: "Roboto", sans-serif;
-
         }
-
 
         .form {
             position: relative;
             z-index: 1;
-            border-radius: 20px;
+            border-radius: 16px;
             background: #FFFFFF;
             max-width: 360px;
-            margin: 0 auto 100px;
-            padding: 15px 45px 45px 45px;
+            margin: 100px;
+            padding: 15px 45px 15px 45px;
             text-align: center;
             box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+        }
+
+        .login-form {
+            margin-top: 30px;
         }
 
         .form input {
@@ -43,7 +46,9 @@
             margin: 0 0 15px;
             padding: 15px;
             box-sizing: border-box;
+            border-radius: 8px;
             font-size: 14px;
+            border: 1px solid transparent;
         }
 
         .form button {
@@ -52,7 +57,10 @@
             outline: 0;
             background: #3366ff;
             width: 100%;
+            font-weight: bold;
+            border-radius: 8px;
             border: 0;
+            margin-top: 8px;
             padding: 15px;
             color: #FFFFFF;
             font-size: 14px;
@@ -68,8 +76,8 @@
         }
 
         .form .message {
-            margin: 15px 0 0;
-            color: #b3b3b3;
+            margin: 16px 0 0;
+            color: #ada5a5;
             font-size: 12px;
             text-align: start;
         }
@@ -78,31 +86,60 @@
             color: #3366ff;
             text-decoration: none;
         }
+
+        .form .message p {
+            display: inline-block;
+        }
+
+        .form .message #ErrorMessage {
+            float: right;
+            color: red;
+            display: none;
+        }
     </style>
 </head>
 
 <body>
     <div class="login-page">
         <div class="form">
-            <h1>login</h1>
+            <h1>LOGIN</h1>
             <form class="login-form" id="form">
                 <input type="text" placeholder="username" id="UsernameID" />
                 <input type="password" placeholder="password" id="PassWordID" />
                 <button type="button" id="SubmitBtn">login</button>
-                <p class="message">Not registered? <a href="#">Create an account</a></p>
+                <div class="message">
+                    <p>Not registered? <a href="./register.html">Create an account</a></p>
+                    <p id="ErrorMessage">Error</p>
+                </div>
             </form>
         </div>
     </div>
 </body>
 <script>
+    $("input").click(function () {
+        $("#ErrorMessage").css("display", "none");
+        $("input").css("border", "1px solid transparent")
 
+    })
     $("#SubmitBtn").click(function () {
         let name = $("#UsernameID").val().length
-        let pass = $("#UsernameID").val().length
+        let pass = $("#PassWordID").val().length
         if (name != 0 && pass != 0) {
             LoginInfo();
         } else {
-            alert("Vui lòng nhập đầy đủ thông tin")
+            // alert("Vui lòng nhập đầy đủ thông tin")
+
+            if (pass == 0) {
+                $("#PassWordID").css("border", "1px solid red")
+                $("#PassWordID").focus();
+
+            }
+            if (name == 0) {
+                $("#UsernameID").css("border", "1px solid red");
+                $("#UsernameID").focus();
+            }
+            $("#ErrorMessage").html("Please enter full information")
+            $("#ErrorMessage").css("display", "inline-block")
         }
     });
 
@@ -110,7 +147,7 @@
         let name = $("#UsernameID").val()
         let pass = $("#PassWordID").val()
 
-        $.get("http://localhost:8081/students/get-students.php", function (data, status) {
+        $.get("http://localhost:8080/students/get-students.php", function (data, status) {
             let login = false
             data['data'].forEach(e => {
                 if (e['name'] == name && e['password'] == pass) {
@@ -120,16 +157,19 @@
             if (login == true) {
                 // đăng nhập thành công thì sẽ tạo 1 session login và chuyển trang về main
                 sessionStorage.setItem("login", "ok");
+                sessionStorage.setItem("user", name);
                 $(location).attr('href', './main.html')
             } else {
-                alert("Tài khoàn hoặc mật khẩu không chính xác")
+                $("#ErrorMessage").html("Incorrect username or password")
+                $("#ErrorMessage").css("display", "inline-block")
+                // alert("Tài khoàn hoặc mật khẩu không chính xác")
             }
         }, "json");
 
     }
-    $("a").click(function () {
-        $(location).attr('href', './register.html')
-    })
+    // $("a").click(function () {
+    //     $(location).attr('href', './register.html')
+    // })
 </script>
 
 </html>

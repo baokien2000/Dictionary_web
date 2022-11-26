@@ -12,13 +12,13 @@
         body {
             width: 100vw;
             height: 100vh;
-            background: linear-gradient(to top, #ffffff -100%, #3366ff 231%);
+            background-image: linear-gradient(135deg, #918bec 0%, #9599E2 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             font-family: "Roboto", sans-serif;
-
+            overflow: hidden;
         }
 
 
@@ -31,7 +31,7 @@
             background: #FFFFFF;
             max-width: 360px;
             margin: 0 auto 100px;
-            padding: 15px 45px 45px 45px;
+            padding: 15px 45px 15px 45px;
             text-align: center;
             box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
         }
@@ -46,6 +46,7 @@
             padding: 15px;
             box-sizing: border-box;
             font-size: 14px;
+            border: 1px solid transparent;
         }
 
         .form button {
@@ -70,7 +71,7 @@
         }
 
         .form .message {
-            margin: 15px 0 0;
+            margin: 15px 0 0 0;
             color: #b3b3b3;
             font-size: 12px;
             text-align: start;
@@ -80,28 +81,46 @@
             color: #3366ff;
             text-decoration: none;
         }
+
+        .form .message p {
+            display: inline-block;
+        }
+
+        .form .message #ErrorMessage {
+            float: right;
+            color: red;
+            display: none;
+        }
     </style>
 </head>
 
 <body>
     <div class="login-page">
         <div class="form">
-            <h1>Register</h1>
+            <h1>REGISTER</h1>
             <form class="login-form" id="form">
                 <input type="text" placeholder="username" id="UsernameID" />
                 <input type="password" placeholder="password" id="PassWordID" />
                 <input type="password" placeholder="Repeat password" id="RePassWordID" />
                 <button type='button' id="SubmitBtn">Register</button>
-                <p class="message">Have an account? <a href="#">Login</a></p>
+                <div class="message">
+                    <p>Have an account? <a href="./login.html">Login</a></p>
+                    <p id="ErrorMessage">Error</p>
+                </div>
 
             </form>
         </div>
     </div>
 </body>
 <script>
-    $("a").click(function () {
-        $(location).attr('href', './login.html')
+    $("input").click(function () {
+        $("#ErrorMessage").css("display", "none");
+        $("input").css("border", "1px solid transparent")
+
     })
+    // $("a").click(function () {
+    //     $(location).attr('href', './login.html')
+    // })
 
     $("#SubmitBtn").click(function () {
         namebox = $("#UsernameID").val()
@@ -109,34 +128,69 @@
         RePassbox = $("#RePassWordID").val()
         register = true
 
-        $.get("http://localhost:8081/students/get-students.php", function (data, status) {
+        $.get("http://localhost:8080/students/get-students.php", function (data, status) {
             data['data'].forEach(e => {
                 if (e['name'] == namebox) {
                     register = false
                 }
             });
-            if (register == true) {
-                if (namebox.length != 0 && Passbox.length != 0 && RePassbox.length != 0) {
-                    if (Passbox == RePassbox) {
-                        $.post("http://localhost:8081/students/add-student.php", {
-                            name: namebox,
-                            password: Passbox
-                        });
-                        $("#UsernameID").val('')
-                        $("#PassWordID").val('')
-                        $("#RePassWordID").val('')
-                        alert("Đăng ký thành công")
-                        $(location).attr('href', './login.html')
-                    } else {
-                        alert("Mật khẩu không trùng khớp")
-                    }
 
+            if (namebox.length != 0 && Passbox.length != 0 && RePassbox.length != 0) {
+                if (register == true) {
+                    if (Passbox.length < 6) {
+                        $("#ErrorMessage").html("Passwords must be at least 6 characters")
+                        $("#ErrorMessage").css("display", "inline-block");
+                        $("#PassWordID").css("border", "1px solid red")
+                        $("#PassWordID").focus();
+                        // alert("Mật khẩu phải có ít nhất 6 ký tự")
+                    } else {
+                        if (Passbox == RePassbox) {
+                            $.post("http://localhost:8080/students/add-student.php", {
+                                name: namebox,
+                                password: Passbox
+                            });
+                            $("#ErrorMessage").css("display", "none");
+                            $("input").css("border", "1px solid transparent")
+                            $("#UsernameID").val('')
+                            $("#PassWordID").val('')
+                            $("#RePassWordID").val('')
+                            alert("Register Success")
+                            $(location).attr('href', './login.html')
+                        } else {
+                            $("#ErrorMessage").html("Password does not match")
+                            $("#ErrorMessage").css("display", "inline-block");
+                            $("#PassWordID").css("border", "1px solid red")
+                            $("#RePassWordID").css("border", "1px solid red")
+                            $("#PassWordID").focus();
+                            // alert("Mật khẩu không trùng khớp")
+                        }
+                    }
                 } else {
-                    alert("Vui lòng nhập đầy đủ thông tin")
+                    $("#ErrorMessage").html("Account already exists")
+                    $("#ErrorMessage").css("display", "inline-block");
+                    $("#UsernameID").css("border", "1px solid red")
+                    $("#UsernameID").focus();
+                    // alert("Tài khoàn đã tốn tại")
                 }
             } else {
-                alert("Tài khoàn đã tốn tại")
+
+                if (RePassbox.length == 0) {
+                    $("#RePassWordID").css("border", "1px solid red")
+                    $("#RePassWordID").focus();
+                }
+
+                if (Passbox.length == 0) {
+                    $("#PassWordID").css("border", "1px solid red")
+                    $("#PassWordID").focus();
+                }
+                if (namebox.length == 0) {
+                    $("#UsernameID").css("border", "1px solid red")
+                    $("#UsernameID").focus();
+                }
+                $("#ErrorMessage").html("Please enter full information")
+                $("#ErrorMessage").css("display", "inline-block");
             }
+
         }, "json");
 
 

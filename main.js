@@ -25,35 +25,40 @@ let Errortext = document.querySelector("#error"),
     audioIcon = document.getElementById("audioIcon"),
     LanguageIndex = 1,
     audio;
-
+// kiểm tra xem có session login ko 
 //nếu chưa đăng nhập => login.html
-$(document).ready(function () {
-    // kiểm tra xem có session login ko
-    if (sessionStorage.getItem("login") == null) {
-        $(location).attr("href", "./login.html");
+if (sessionStorage.getItem("login") == null || sessionStorage.getItem("login") == "") {
+    $(location).attr("href", "./login.html");
+}
+$("#userBar p").html(sessionStorage.getItem("user"))
+$("#userIcon").click(function () {
+    $("#userBar").css("display", "block")
+})
+$("body").click(function (e) {
+    if (e.target.id != "userIcon" && e.target.id != "LogoutBtn") {
+        $("#userBar").css("display", "none")
     }
 });
 
-// Language.onchange = () => {
-//     switch (Language.value) {
-//         case "1": // Anh
-//             LanguageIndex = 1;
-//             break;
-//         case "2": // TBN
-//             LanguageIndex = 2;
-//             break;
-//         case "3": // Phap
-//             LanguageIndex = 3;
-//             break;
-//         case "4":
-//             LanguageIndex = 4;
-//             break;
-//     }
-// };
+$("#userBar button").click(function () {
+    $("#myModal").css("display", "flex");
+})
+$("#btn-close-logOut").click(function () {
+    $("#myModal").css("display", "none");
+})
+$("#XIcon").click(function () {
+    $("#myModal").css("display", "none");
+})
+
+$("#btn-logOut").click(function () {
+    sessionStorage.setItem("login", "");
+    sessionStorage.setItem("user", "");
+    $(location).attr('href', './login.html')
+})
 
 searchButton.onclick = () => {
     // let LanguageName = $("#LanguageId  option:selected").text();
-    Errortext.style.visibility = "hidden"; // ẩn thông báo lỗi
+    Errortext.style.display = "none";
 
     Content.style.display = "none";
     adjective.innerHTML = "";
@@ -74,7 +79,6 @@ searchButton.onclick = () => {
             break;
         case "2": // Tiếng TBN
             // Code Here
-            // alert(`Chưa làm ngôn ngữ ${LanguageName}`);
             Oxford_API(searchBox.value, "es");
             break;
         case "3": // Tiếng Pháp
@@ -130,10 +134,10 @@ function data(result, word) {
     if (result.length == undefined) {
         // nếu độ dài mảng = undefined thì báo lỗi ko tìm thấy
         Errortext.innerHTML = `Couldn't find any results for <b>${word} </b>`;
-        Errortext.style.visibility = "visible"; // hiện thông báo lỗi
+        Errortext.style.display = "block"; // hiện thông báo lỗi
         Content.style.display = "none"; // Ẩn content
     } else {
-        Errortext.style.visibility = "hidden"; // ẩn thông báo lỗi
+        Errortext.style.display = "none"; // ẩn thông báo lỗi
         Vocabulary.innerHTML = word; // từ vựng
 
         // Phát âm
@@ -175,7 +179,7 @@ function data(result, word) {
                     }
                 });
                 switch (
-                    j.partOfSpeech // check xem j.partOfSpeech là loại từ gì
+                j.partOfSpeech // check xem j.partOfSpeech là loại từ gì
                 ) {
                     case "adjective": // trạng từ
                         if (adjective.innerText.length == 0)
@@ -229,9 +233,9 @@ function hideNullContent() {
     adverbtxt.style.display =
         adverb.textContent.length == 0 ? "none" : "list-item"; // trạng từ
     Synonymstxt.style.display =
-        Synonyms.textContent.length == 0 ? "none" : "list-item"; // đồng nghĩa
+        Synonyms.textContent.length == 0 ? "none" : "block"; // đồng nghĩa
     Antonymstxt.style.display =
-        Antonyms.textContent.length == 0 ? "none" : "list-item"; // trái nghĩa
+        Antonyms.textContent.length == 0 ? "none" : "block"; // trái nghĩa
     verbtxt.style.display = verb.textContent.length == 0 ? "none" : "list-item"; // Động từ
     nountxt.style.display = noun.textContent.length == 0 ? "none" : "list-item"; // danh từ
 }
@@ -253,7 +257,7 @@ function Oxford_data(data, word) {
     if (data.error) {
         // nếu độ dài mảng = undefined thì báo lỗi ko tìm thấy
         Errortext.innerHTML = `Couldn't find any results for <b>${word} </b>`;
-        Errortext.style.visibility = "visible"; // hiện thông báo lỗi
+        Errortext.style.display = "block"; // hiện thông báo lỗi
         Content.style.display = "none"; // Ẩn content
     } else {
         Vocabulary.innerHTML = word; // từ vựng
@@ -289,7 +293,7 @@ function Oxford_data(data, word) {
                 });
             });
             switch (
-                k.lexicalCategory.id // check xem j.partOfSpeech là loại từ gì
+            k.lexicalCategory.id // check xem j.partOfSpeech là loại từ gì
             ) {
                 case "adjective": // trạng từ
                     if (adjective.innerText.length == 0)
