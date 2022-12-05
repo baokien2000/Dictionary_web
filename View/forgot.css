@@ -1,0 +1,143 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    background-image: linear-gradient(to right top, #a39eed, #a39eed, #a39eed, #a39eed, #a39eed);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: "Roboto", sans-serif;
+    overflow: hidden;
+}
+
+.form {
+    position: relative;
+    z-index: 1;
+    border-radius: 20px;
+    background: #ffffff;
+    max-width: 360px;
+    margin: 0 100px;
+    padding: 15px 45px 15px 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.form input {
+    font-family: "Roboto", sans-serif;
+    outline: none;
+    background: #f2f2f2;
+    width: 100%;
+    margin: 0 0 15px;
+    padding: 14px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    font-size: 14px;
+    border: 1px solid transparent;
+}
+
+.form select {
+    font-family: "Roboto", sans-serif;
+    outline: none;
+    background: #f2f2f2;
+    width: 100%;
+    margin: 0 0 15px;
+    padding: 14px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    font-size: 14px;
+    border: 1px solid transparent;
+}
+
+.form input:focus,
+select:focus {
+    border: 1px solid #918bec !important;
+    box-shadow: 0 0 3px #837ce8;
+}
+
+.form button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #857ef2;
+    width: 100%;
+    border-radius: 10px;
+    padding: 15px;
+    color: #ffffff;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    margin-top: 16px;
+}
+
+.form button:hover,
+.form button:active,
+.form button:focus {
+    background: #6a61e9;
+    transition: 0.3s;
+}
+
+.form .message {
+    margin: 15px 0 0 0;
+    color: #908f8f;
+    font-size: 12px;
+    text-align: start;
+}
+
+.form .message a {
+    color: #7c73f8;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.form .message p {
+    display: inline-block;
+}
+
+#Security_question {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+    border: 1px solid transparent;
+}
+
+#note {
+    color: #bdbdbd;
+    font-size: 12px;
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+#ErrorMessage {
+    color: red;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 0;
+    font-size: 14px;
+    visibility: hidden;
+}
+
+#SubmitBtn {
+    margin-top: 5px;
+}
+
+#RePassWordID {
+    margin-bottom: 5px;
+}
+
+@media screen and (max-width: 420px) {
+    body {
+        margin: 0;
+    }
+    .form {
+        width: 70%;
+        margin: auto;
+        padding: 15px 30px;
+    }
+}

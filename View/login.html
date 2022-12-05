@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="login.css">
+    <link rel="shortcut icon" type="image/png" href="../images/login.png" />
+</head>
+
+
+<body>
+    <div class="container" id="container">
+        <div class="form-container log-in-container">
+            <form action="#">
+                <h1>User Login</h1>
+                <input oninput="hideError()" type="text" placeholder="username" id="UsernameID" />
+                <input oninput="hideError()" type="password" placeholder="password" id="PassWordID" />
+                <p id="ErrorMessage">Error</p>
+                <button type="button" id="SubmitBtn">Login</button>
+                <div class="message">
+                    <p class="not-reg">Not registered? <a class="create-acc" href="../View/register.html">Create an
+                            account</a></p>
+                </div>
+                <a class="forgot-pass" href="../View/forgot.html">Forgot your password?</a>
+
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-right">
+                    <h1>Dictionary Online</h1>
+                    <p>The most popular dictionary and thesaurus for learners of English. Meanings and definitions of
+                        words with pronunciations and translations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../Controller/login.js"></script>
+
+</html>

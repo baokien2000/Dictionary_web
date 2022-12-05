@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="register.css">
+    <link rel="shortcut icon" type="image/png" href="../images/register.png" />
+</head>
+
+<body>
+    <div class="login-page">
+        <div class="form">
+            <h1>REGISTER</h1>
+            <form class="login-form" id="form">
+                <input oninput="hideError()" type="text" placeholder="username" id="UsernameID" />
+                <input oninput="hideError()" type="password" placeholder="password" id="PassWordID" />
+                <input oninput="hideError()" type="password" placeholder="Confirm password" id="RePassWordID" />
+                <select name="Security_question" id="Security_question">
+                    <option value="1">What is your favorite pet?</option>
+                    <option value="2">What is your favorite book?</option>
+                    <option value="3">What is your favorite sport?</option>
+                    <option value="4">What is your favorite movie?</option>
+                    <option value="5">What is your favorite flower?</option>
+                </select>
+                <input oninput="hideError()" type="text" placeholder="Answer" id="Security_Answer" />
+                <p id="ErrorMessage">Error</p>
+                <button type='button' id="SubmitBtn">Register</button>
+                <span id="note">(*) You need to memorize the answer of the private question carefully to recover the
+                    password.</span>
+                <div class="message">
+                    <p>Already have an account? <a href="../View/login.html">Login here</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+<script src="../Controller/register.js"></script>
+
+</html>

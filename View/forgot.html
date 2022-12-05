@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recover Password</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="forgot.css">
+    <link rel="shortcut icon" type="image/png" href="../images/forgot.png" />
+</head>
+
+<body>
+    <div class="login-page">
+        <div class="form">
+            <h1>RESET PASSWORD</h1>
+            <form class="login-form" id="form">
+                <input oninput="hideError()" type="text" placeholder="Username" id="UsernameID" />
+                <select name="Security_question" id="Security_question">
+                    <option value="1">What is your favorite pet?</option>
+                    <option value="2">What is your favorite book?</option>
+                    <option value="3">What is your favorite sport?</option>
+                    <option value="4">What is your favorite movie?</option>
+                    <option value="5">What is your favorite flower?</option>
+                </select>
+                <input oninput="hideError()" type="text" placeholder="Answer" id="Security_Answer" />
+                <input oninput="hideError()" type="password" placeholder="New password" id="PassWordID" />
+                <input oninput="hideError()" type="password" placeholder="Confirm new password" id="RePassWordID" />
+                <p id="ErrorMessage">Error</p>
+
+                <button type='button' id="SubmitBtn" class="btn-rs">Reset password</button>
+                <div class="message">
+                    <p>Have an account? <a href="./login.html">Login</a></p>
+                    <p style="float: right;">Not registered? <a href="./register.html">Create an account</a></p>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</body>
+<script src="../Controller/forgot.js"></script>
+
+</html>

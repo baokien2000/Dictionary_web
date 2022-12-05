@@ -1,0 +1,404 @@
+* {
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background-color: #ae9cff;
+}
+
+h3 {
+    margin-top: 10px;
+}
+
+h6 {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.container {
+    background-color: #fffefe;
+    width: 80%;
+    position: absolute;
+    transform: translate(-50%);
+    top: 5%;
+    left: 50%;
+    padding: 30px 50px 20px 50px;
+    border-radius: 10px;
+    box-shadow: 0 20px 40px rgba(38, 33, 61, 0.2);
+    box-shadow: 10px 5px 5px rgb(140, 145, 236);
+}
+
+#userIcon {
+    height: 60px;
+    padding-bottom: 17px;
+    float: right;
+    filter: invert(25%);
+    cursor: pointer;
+}
+
+#userIcon:hover {
+    filter: invert(0%);
+}
+
+#userBar {
+    width: 270px;
+    background-color: #e6e6fa;
+    position: absolute;
+    right: 50px;
+    top: 85px;
+    border-radius: 7px;
+    overflow: hidden;
+    display: none;
+    box-shadow: 8px 8px 2px 1px rgba(0, 0, 255, 0.2);
+}
+
+#userBar p {
+    padding-left: 20px;
+    height: 50px;
+    line-height: 50px;
+    margin: 0 0 15px 0;
+    border-bottom: 2px solid #ae9cff;
+    border-top: 5px solid #ae9cff;
+    font-weight: bold;
+}
+
+#userBar button {
+    margin-bottom: 12px;
+    margin-left: 50px;
+    width: 170px;
+    height: 45px;
+    border: none;
+    border-radius: 8px;
+    background-color: #ae9cff;
+}
+
+#userBar button:hover {
+    background-color: #9a85f9;
+    transition: 0.3s;
+}
+
+.auth-form__container h3 {
+    display: inline-block;
+}
+
+.XIcon {
+    height: 17px;
+    float: right;
+    filter: invert(30%);
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+.XIcon:hover {
+    filter: invert(20%);
+}
+
+.webTitle {
+    font-family: "Poppins", sans-serif;
+    text-align: center;
+    font-weight: bold;
+    color: #826ce4;
+    font-size: 40px;
+    margin-top: 0px;
+    margin-bottom: 50px;
+    display: inline-block;
+}
+
+.search-box {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.search-box input {
+    padding: 5px;
+    width: 100%;
+    border: none;
+    outline: none;
+    border-bottom: 3px solid #ae9cff;
+    font-size: 20px;
+}
+
+.language {
+    background-color: #dcdcfa;
+    padding: 15px 5px 15px 15px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 30px;
+}
+
+.language:hover {
+    background-color: #cacafc;
+    transition: 0.5s;
+}
+
+.search-box button {
+    margin-left: 20px;
+    padding: 15px 20px;
+    background-color: #a18ef8;
+    border: none;
+    outline: none;
+    color: #fffefe;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+#searchbtn:hover {
+    background-color: #826ce4;
+    transition: 0.5s;
+}
+
+input[type="text"]:focus,
+#LanguageId:focus,
+#searchbtn:focus {
+    box-shadow: none;
+}
+
+#error {
+    margin-top: 20px;
+    color: red;
+    display: none;
+    padding: 0;
+}
+
+#error b {
+    color: black;
+}
+
+.vocabulary p {
+    color: blue;
+    display: inline-block;
+    text-transform: capitalize;
+    font-size: 22px;
+    margin-top: 20px;
+}
+
+.vocabulary span {
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+.vocabulary img {
+    height: 25px;
+    margin-bottom: 2px;
+    margin-left: 10px;
+}
+
+li i {
+    font-size: 15px;
+}
+
+.content {
+    display: none;
+}
+
+.Defi {
+    font-size: 16px;
+}
+
+.Defi li {
+    margin: 10px 0 10px 0;
+}
+
+li u {
+    cursor: pointer;
+}
+
+div > ul > li {
+    font-size: 18px;
+}
+
+#NounText,
+#AdjectiveText,
+#VerbText,
+#AdverbText,
+#InterjectionText,
+#SynonymsText,
+#AntonymsText {
+    font-weight: bold;
+}
+
+.modal__overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal__body {
+    --growth-from: 0.7;
+    --growth-to: 1;
+    margin: auto;
+    position: relative;
+    animation: growth linear 0.1s;
+}
+
+.auth-form {
+    width: 500px;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.auth-form__container {
+    padding: 16px 32px;
+    box-shadow: 5px 5px 5px 0px #454444;
+}
+
+.auth-form__controls {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.auth-form__controls-back {
+    margin-right: 8px;
+}
+
+.btn.btn--primary {
+    color: #fff;
+    background-color: #826ce4;
+}
+
+.btn.btn--primary:hover {
+    background-color: #7156e9;
+    transition: 0.3s;
+}
+
+.btn-close {
+    background-color: #f0f0f0;
+}
+
+.btn-close:hover {
+    background-color: #d8d4d4;
+}
+
+#btn-logOut:hover {
+    background-color: #6351b3;
+}
+
+#myEditModal input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+    border: 1px solid transparent;
+}
+#myEditModal h3 {
+    margin-bottom: 20px;
+}
+#myEditModal .auth-form__controls {
+    margin-top: 10px;
+}
+#ErrorMessage {
+    color: red;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    visibility: hidden;
+}
+.ErrorMessage {
+    color: red;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    visibility: hidden;
+}
+/* Use a media query to add a breakpoint at 800px: */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 30px 30px 20px 30px;
+    }
+    ul {
+        padding: 0 0 0 20px;
+    }
+    .search-box {
+        display: block;
+        margin-bottom: 20px;
+    }
+
+    #searchBox {
+        margin-bottom: 10px;
+        font-size: 15px;
+    }
+
+    .language {
+        padding: 10px 5px 10px 15px;
+    }
+
+    #LanguageId {
+        margin: 0px;
+        width: 120px;
+        font-size: 14px;
+    }
+
+    #searchbtn {
+        padding: 10px 10px;
+        width: 30%;
+        margin-top: 10px;
+        height: 42px;
+    }
+
+    option {
+        font-size: 10px;
+    }
+
+    .webTitle {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    #userIcon {
+        height: 40px;
+    }
+
+    #userBar {
+        width: 210px;
+        top: 65px;
+        right: 7%;
+        border-radius: 7px;
+        overflow: hidden;
+        display: none;
+    }
+
+    #userBar button {
+        width: calc(100% - 40px);
+        margin: 0 20px 10px 20px;
+    }
+    h6 {
+        font-size: 18px;
+    }
+    .content > ul > li {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .modal .auth-form {
+        width: 90% !important;
+        margin: auto;
+    }
+    .modal h3 {
+        font-size: 20px;
+        font-weight: bold;
+    }
+    /* model update trong page admin */
+    #myUpdateAccountModal .auth-form label {
+        width: 35%;
+    }
+    #myUpdateAccountModal .auth-form input {
+        width: 63%;
+    }
+    #myUpdateAccountModal .auth-form select {
+        width: 63%;
+    }
+}

@@ -25,42 +25,177 @@ let Errortext = document.querySelector("#error"),
     audioIcon = document.getElementById("audioIcon"),
     LanguageIndex = 1,
     audio;
-// kiểm tra xem có session login ko 
+// kiểm tra xem có session login ko
 //nếu chưa đăng nhập => login.html
 if (sessionStorage.getItem("login") == null || sessionStorage.getItem("login") == "") {
-    $(location).attr("href", "./login.html");
+    $(location).attr("href", "../View/login.html");
 }
 
-$("#userBar p").html(sessionStorage.getItem("user"))
-$("#userIcon").click(function () {
-    $("#userBar").css("display", "block")
-})
-$("body").click(function (e) {
-    if (e.target.id != "userIcon" && e.target.id != "LogoutBtn") {
-        $("#userBar").css("display", "none")
+$(".container").css("display", "block");
+
+$("#userBar p").html(sessionStorage.getItem("user"));
+// $("#userIcon").click(function () {
+//     $("#userBar").css("display", "block")
+// })
+$("html").click(function (e) {
+    if (e.target.id != "userBar") {
+        $("#userBar").css("display", "none");
+    }
+    if (e.target.id == "userIcon") {
+        $("#userBar").css("display", "block");
     }
 });
 
-$("#userBar button").click(function () {
+$("#btn-changePass").click(function () {
+    let name = $("#userBar p").html(),
+        OldPass = $("#PassWordID").val(),
+        NewPass = $("#NewPassWordID").val(),
+        ReNewPass = $("#ReNewPassWordID").val(),
+        PassCheck = false,
+        id;
+
+    $.get(
+        "http://localhost:8080/account/login.php",
+        {
+            name: name,
+            password: OldPass,
+        },
+        function (data, status) {
+            if (OldPass.length != 0 && NewPass.length != 0 && ReNewPass.length != 0) {
+                if (data["data"].length == 1) {
+                    if (NewPass.length < 6) {
+                        $("#ErrorMessage").html("Passwords must be at least 6 characters");
+                        $("#ErrorMessage").css("visibility", "visible");
+                        $("#NewPassWordID").css("border", "1px solid red");
+                        $("#NewPassWordID").focus();
+                    } else {
+                        if (NewPass == ReNewPass) {
+                            if (NewPass != OldPass) {
+                                $.post("http://localhost:8080/account/update-password.php", {
+                                    id: data["data"][0].id,
+                                    password: NewPass,
+                                });
+                                $("#ErrorMessage").css("visibility", "hidden");
+                                $(".modal input").css("border", "1px solid transparent");
+                                $("#PassWordID").val("");
+                                $("#NewPassWordID").val("");
+                                $("#ReNewPassWordID").val("");
+                                alert("Change password successfully");
+                                $("#myEditModal").css("display", "none");
+                            } else {
+                                $("#ErrorMessage").html("The new password cannot be the same as the current password.");
+                                $("#ErrorMessage").css("visibility", "visible");
+                                $("#NewPassWordID").css("border", "1px solid red");
+                                $("#NewPassWordID").focus();
+                            }
+                        } else {
+                            $("#ErrorMessage").html("New Password does not match");
+                            $("#ErrorMessage").css("visibility", "visible");
+                            $("#NewPassWordID").css("border", "1px solid red");
+                            $("#ReNewPassWordID").css("border", "1px solid red");
+                            $("#NewPassWordID").focus();
+                        }
+                    }
+                } else {
+                    $("#ErrorMessage").html("Old password is not correct");
+                    $("#ErrorMessage").css("visibility", "visible");
+                    $("#PassWordID").css("border", "1px solid red");
+                    $("#PassWordID").focus();
+                }
+            } else {
+                if (ReNewPass.length == 0) {
+                    $("#ReNewPassWordID").css("border", "1px solid red");
+                    $("#ReNewPassWordID").focus();
+                }
+
+                if (NewPass.length == 0) {
+                    $("#NewPassWordID").css("border", "1px solid red");
+                    $("#NewPassWordID").focus();
+                }
+                if (OldPass.length == 0) {
+                    $("#PassWordID").css("border", "1px solid red");
+                    $("#PassWordID").focus();
+                }
+                $("#ErrorMessage").html("Please enter full information");
+                $("#ErrorMessage").css("visibility", "visible");
+            }
+        },
+        "json"
+    );
+});
+$("#PassWordID").keypress(function () {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        if ($("#NewPassWordID").val() == "") {
+            $("#NewPassWordID").focus();
+        } else {
+            $("#btn-changePass").click();
+        }
+    }
+});
+$("#NewPassWordID").keypress(function () {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        if ($("#ReNewPassWordID").val() == "") {
+            $("#ReNewPassWordID").focus();
+        } else {
+            $("#btn-changePass").click();
+        }
+    }
+});
+$("#ReNewPassWordID").keypress(function () {
+    if (event.key === "Enter") {
+        $("#btn-changePass").click();
+    }
+});
+
+$("#LogoutBtn").click(function () {
     $("#myModal").css("display", "flex");
-})
-$("#btn-close-logOut").click(function () {
-    $("#myModal").css("display", "none");
-})
-$("#XIcon").click(function () {
-    $("#myModal").css("display", "none");
-})
+});
+$("#ForgotBtn").click(function () {
+    $("#myEditModal").css("display", "flex");
+});
+
+$(".btn-close").click(function () {
+    $(".modal").css("display", "none");
+    $("#ErrorMessage").css("visibility", "hidden");
+    $(".modal input").css("border", "1px solid transparent");
+    $(".modal input").val("");
+});
+$(".modal input").click(function () {
+    $("#ErrorMessage").css("visibility", "hidden");
+    $(".modal input").css("border", "1px solid transparent");
+});
+function hideError() {
+    $("#ErrorMessage").css("visibility", "hidden");
+    $(".modal input").css("border", "1px solid transparent");
+}
+$(".XIcon").click(function () {
+    $(".modal").css("display", "none");
+    $("#ErrorMessage").css("visibility", "hidden");
+    $(".modal input").css("border", "1px solid transparent");
+    $(".modal input").val("");
+});
 
 $("#btn-logOut").click(function () {
     sessionStorage.setItem("login", "");
     sessionStorage.setItem("user", "");
-    $(location).attr('href', './login.html')
-})
+    $(location).attr("href", "../View/login.html");
+});
 
+$("#searchBox").keypress(function () {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        searchWord();
+        $("#searchBox").blur();
+    }
+});
 searchButton.onclick = () => {
-    // let LanguageName = $("#LanguageId  option:selected").text();
+    searchWord();
+    $("#searchBox").blur();
+};
+function searchWord() {
     Errortext.style.display = "none";
-
     Content.style.display = "none";
     adjective.innerHTML = "";
     interjection.innerHTML = "";
@@ -70,7 +205,6 @@ searchButton.onclick = () => {
     Synonyms.innerHTML = "";
     Antonyms.innerHTML = "";
     Phonetics.innerHTML = "";
-    console.log(Language.value);
 
     switch (Language.value) {
         case "1": // Tiếng anh
@@ -112,8 +246,7 @@ searchButton.onclick = () => {
             break;
     }
     searchBox.value = "";
-};
-
+}
 // Audio Onclick
 audioIcon.onclick = () => {
     audio.play(); // phát âm thanh
@@ -188,20 +321,16 @@ function data(result, word) {
                             adjective.innerHTML = WordList; // nếu chưa có thì thêm vào
                         break;
                     case "adverb": // trạng từ
-                        if (adverb.innerText.length == 0)
-                            adverb.innerHTML = WordList;
+                        if (adverb.innerText.length == 0) adverb.innerHTML = WordList;
                         break;
                     case "interjection": // thán từ
-                        if (interjection.innerText.length == 0)
-                            interjection.innerHTML = WordList;
+                        if (interjection.innerText.length == 0) interjection.innerHTML = WordList;
                         break;
                     case "noun": // danh từ
-                        if (noun.innerText.length == 0)
-                            noun.innerHTML = WordList;
+                        if (noun.innerText.length == 0) noun.innerHTML = WordList;
                         break;
                     case "verb": // động từ
-                        if (verb.innerText.length == 0)
-                            verb.innerHTML = WordList;
+                        if (verb.innerText.length == 0) verb.innerHTML = WordList;
                         break;
                 }
                 if (j.antonyms.length) {
@@ -227,16 +356,11 @@ function hideNullContent() {
     if (audio == undefined) {
         audioIcon.style.display = "none"; //audio
     }
-    interjectiontxt.style.display =
-        interjection.textContent.length == 0 ? "none" : "list-item"; // thán từ
-    adjectivetxt.style.display =
-        adjective.textContent.length == 0 ? "none" : "list-item"; // tính từ
-    adverbtxt.style.display =
-        adverb.textContent.length == 0 ? "none" : "list-item"; // trạng từ
-    Synonymstxt.style.display =
-        Synonyms.textContent.length == 0 ? "none" : "block"; // đồng nghĩa
-    Antonymstxt.style.display =
-        Antonyms.textContent.length == 0 ? "none" : "block"; // trái nghĩa
+    interjectiontxt.style.display = interjection.textContent.length == 0 ? "none" : "list-item"; // thán từ
+    adjectivetxt.style.display = adjective.textContent.length == 0 ? "none" : "list-item"; // tính từ
+    adverbtxt.style.display = adverb.textContent.length == 0 ? "none" : "list-item"; // trạng từ
+    Synonymstxt.style.display = Synonyms.textContent.length == 0 ? "none" : "block"; // đồng nghĩa
+    Antonymstxt.style.display = Antonyms.textContent.length == 0 ? "none" : "block"; // trái nghĩa
     verbtxt.style.display = verb.textContent.length == 0 ? "none" : "list-item"; // Động từ
     nountxt.style.display = noun.textContent.length == 0 ? "none" : "list-item"; // danh từ
 }
@@ -245,15 +369,13 @@ let Antonyms_Synonyms = (defi) => {
     // hàm trả về HTML các từ đồng nghĩa và trái nghĩa
     let Antonyms_Synonyms_List = `<li>`;
     defi.forEach((i) => {
-        Antonyms_Synonyms_List +=
-            `<u onclick=WordClick("${i.replaceAll(" ", "_")}")>` + i + `</u>  `;
+        Antonyms_Synonyms_List += `<u onclick=WordClick("${i.replaceAll(" ", "_")}")>` + i + `</u>  `;
     });
     Antonyms_Synonyms_List += `</li>`;
     return Antonyms_Synonyms_List;
 };
 function Oxford_data(data, word) {
     audio = undefined;
-    console.log(data);
     let lexicalEntries, entries, senses, WordList, Antonyms_Synonyms_List;
     if (data.error) {
         // nếu độ dài mảng = undefined thì báo lỗi ko tìm thấy
@@ -283,12 +405,7 @@ function Oxford_data(data, word) {
                     if (h.synonyms != undefined) {
                         h.synonyms.forEach((u) => {
                             Antonyms_Synonyms_List +=
-                                `<u onclick=WordClick("${u.text.replaceAll(
-                                    " ",
-                                    "_"
-                                )}")>` +
-                                u.text +
-                                `</u>  `;
+                                `<u onclick=WordClick("${u.text.replaceAll(" ", "_")}")>` + u.text + `</u>  `;
                         });
                     }
                 });
@@ -302,12 +419,10 @@ function Oxford_data(data, word) {
                         adjective.innerHTML = WordList; // nếu chưa có thì thêm vào
                     break;
                 case "adverb": // trạng từ
-                    if (adverb.innerText.length == 0)
-                        adverb.innerHTML = WordList;
+                    if (adverb.innerText.length == 0) adverb.innerHTML = WordList;
                     break;
                 case "interjection": // thán từ
-                    if (interjection.innerText.length == 0)
-                        interjection.innerHTML = WordList;
+                    if (interjection.innerText.length == 0) interjection.innerHTML = WordList;
                     break;
                 case "noun": // danh từ
                     if (noun.innerText.length == 0) noun.innerHTML = WordList;
@@ -327,62 +442,12 @@ function Oxford_data(data, word) {
     hideNullContent();
 }
 function Oxford_API(word, language_code) {
-    const url = `http://localhost:5500/${word.replaceAll(
-        " ",
-        "_"
-    )}+${language_code}`;
+    const url = `http://localhost:5500/${word.replaceAll(" ", "_")}+${language_code}`;
     fetch(url, { method: "GET", mode: "cors" })
         .then((res) => res.json())
         .then((data) => Oxford_data(data, word));
 }
-// function Es_API(word) {
-//     const url = `http://localhost:5500/${word.replaceAll(" ", "_")}+es`;
-//     fetch(url, { method: "GET", mode: "cors" })
-//         .then((res) => res.json())
-//         .then((data) => Oxford_data(data, word));
-// }
-// function Fr_API(word) {
-//     const url = `http://localhost:5500/${word.replaceAll(" ", "_")}+fr`;
-//     fetch(url, { method: "GET", mode: "cors" })
-//         .then((res) => res.json())
-//         .then((data) => Oxford_data(data, word));
-// }
-// function Gr_API(word) {
-//     const url = `http://localhost:5500/${word.replaceAll(" ", "_")}+gu`;
-//     fetch(url, { method: "GET", mode: "cors" })
-//         .then((res) => res.json())
-//         .then((data) => Oxford_data(data, word));
-// }
-// function Hi_API(word) {
-//     const url = `http://localhost:5500/${word.replaceAll(" ", "_")}+hi`;
-//     fetch(url, { method: "GET", mode: "cors" })
-//         .then((res) => res.json())
-//         .then((data) => Oxford_data(data, word));
-// }
-// function Lv_API(word) {
-//     const url = `http://localhost:5500/${word.replaceAll(" ", "_")}+lv`;
-//     fetch(url, { method: "GET", mode: "cors" })
-//         .then((res) => res.json())
-//         .then((data) => Oxford_data(data, word));
-// }
-// function Ro_API(word) {
-//     const url = `http://localhost:5500/${word.replaceAll(" ", "_")}+ro`;
-//     fetch(url, { method: "GET", mode: "cors" })
-//         .then((res) => res.json())
-//         .then((data) => Oxford_data(data, word));
-// }
-// function Sw_API(word) {
-//     const url = `http://localhost:5500/${word.replaceAll(" ", "_")}+sw`;
-//     fetch(url, { method: "GET", mode: "cors" })
-//         .then((res) => res.json())
-//         .then((data) => Oxford_data(data, word));
-// }
-// function Ta_API(word) {
-//     const url = `http://localhost:5500/${word.replaceAll(" ", "_")}+ta`;
-//     fetch(url, { method: "GET", mode: "cors" })
-//         .then((res) => res.json())
-//         .then((data) => Oxford_data(data, word));
-// }
+
 function fetchApi(word) {
     // hàm trả về kết quả Dictionary EN
     let url = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;

@@ -96,6 +96,29 @@
             color: red;
             display: none;
         }
+
+        .form .Errormessage {
+            margin: 0;
+            color: #ada5a5;
+            font-size: 12px;
+            text-align: start;
+        }
+        
+        .form #ErrorMessage{
+            float: right;
+            color: red;
+            display: inline-block;
+            padding: 0;
+            margin: 0;
+            font-size: 14px;
+            visibility: hidden;
+        }
+        #PassWordID{
+            margin-bottom: 5px;
+        }
+        #SubmitBtn{
+            margin-top: 5px;
+        }
     </style>
 </head>
 
@@ -106,10 +129,10 @@
             <form class="login-form" id="form">
                 <input type="text" placeholder="username" id="UsernameID" />
                 <input type="password" placeholder="password" id="PassWordID" />
+                <p id="ErrorMessage">Error</p>
                 <button type="button" id="SubmitBtn">login</button>
                 <div class="message">
                     <p>Not registered? <a href="./register.html">Create an account</a></p>
-                    <p id="ErrorMessage">Error</p>
                 </div>
             </form>
         </div>
@@ -117,10 +140,10 @@
 </body>
 <script>
     $("input").click(function () {
-        $("#ErrorMessage").css("display", "none");
+        $("#ErrorMessage").css("visibility", "hidden");
         $("input").css("border", "1px solid transparent")
-
     })
+
     $("#SubmitBtn").click(function () {
         let name = $("#UsernameID").val().length
         let pass = $("#PassWordID").val().length
@@ -139,7 +162,7 @@
                 $("#UsernameID").focus();
             }
             $("#ErrorMessage").html("Please enter full information")
-            $("#ErrorMessage").css("display", "inline-block")
+            $("#ErrorMessage").css("visibility", "visible")
         }
     });
 
@@ -161,7 +184,7 @@
                 $(location).attr('href', './main.html')
             } else {
                 $("#ErrorMessage").html("Incorrect username or password")
-                $("#ErrorMessage").css("display", "inline-block")
+                $("#ErrorMessage").css("visibility", "visible")
                 // alert("Tài khoàn hoặc mật khẩu không chính xác")
             }
         }, "json");
