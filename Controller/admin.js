@@ -43,7 +43,7 @@ $("#btn-changePass").click(function () {
         NewPass = $("#NewPassWordID").val(),
         ReNewPass = $("#ReNewPassWordID").val();
 
-    $.get("http://localhost:8080/account/login.php", {
+    $.get("http://localhost:8080/Model/login.php", {
         name: name,
         password: OldPass,
     }, function (data, status) {
@@ -57,7 +57,7 @@ $("#btn-changePass").click(function () {
                 } else {
                     if (NewPass == ReNewPass) {
                         if (NewPass != OldPass) {
-                            $.post("http://localhost:8080/account/update-password.php", {
+                            $.post("http://localhost:8080/Model/update-password.php", {
                                 id: data['data'][0].id,
                                 password: NewPass,
                             });
@@ -176,7 +176,7 @@ function getData() {
 
     let Suggestions = "";
 
-    $.get("http://localhost:8080/account/get-account.php", function (data, status) {
+    $.get("http://localhost:8080/Model/get-account.php", function (data, status) {
         AccountData = [];
         data['data'].forEach(e => {
             Suggestions += e["name"] + ",";
@@ -250,7 +250,7 @@ $("#btn-Delelte").click(function () {
     if ($("#adminTable tr").length == 1) {
         current_tablePage -= 1;
     }
-    $.post("http://localhost:8080/account/delete-account.php", {
+    $.post("http://localhost:8080/Model/delete-account.php", {
         id: target_id,
     });
     alert("Delete Success")
@@ -261,7 +261,7 @@ $("#btn-Delelte").click(function () {
 $("#btn-updateAccount").click(function () {
     if ($("#UsernameID").val() != '') {
         if ($("#UsernameID").val() == target_name) {
-            $.post("http://localhost:8080/account/update-account.php", {
+            $.post("http://localhost:8080/Model/update-account.php", {
                 id: target_id,
                 name: $("#UsernameID").val(),
                 role: $("#SelectRole option:selected").text(),
@@ -270,7 +270,7 @@ $("#btn-updateAccount").click(function () {
             $("#myUpdateAccountModal").css("display", "none")
             setTimeout(getData(), 20);
         } else {
-            $.get("http://localhost:8080/account/get-account.php", function (data, status) {
+            $.get("http://localhost:8080/Model/get-account.php", function (data, status) {
                 let existAccount = false;
                 data['data'].forEach(e => {
                     if ($("#UsernameID").val() == e['name']) {
@@ -278,7 +278,7 @@ $("#btn-updateAccount").click(function () {
                     }
                 });
                 if (existAccount == false) {
-                    $.post("http://localhost:8080/account/update-account.php", {
+                    $.post("http://localhost:8080/Model/update-account.php", {
                         id: target_id,
                         name: $("#UsernameID").val(),
                         role: $("#SelectRole option:selected").text(),

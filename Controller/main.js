@@ -53,9 +53,9 @@ $("#btn-changePass").click(function () {
         ReNewPass = $("#ReNewPassWordID").val(),
         PassCheck = false,
         id;
-
+    अभिवादन
     $.get(
-        "http://localhost:8080/account/login.php",
+        "http://localhost:8080/Model/login.php",
         {
             name: name,
             password: OldPass,
@@ -71,7 +71,7 @@ $("#btn-changePass").click(function () {
                     } else {
                         if (NewPass == ReNewPass) {
                             if (NewPass != OldPass) {
-                                $.post("http://localhost:8080/account/update-password.php", {
+                                $.post("http://localhost:8080/Model/update-password.php", {
                                     id: data["data"][0].id,
                                     password: NewPass,
                                 });
